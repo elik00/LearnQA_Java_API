@@ -12,6 +12,5 @@ public class JsonParsingTest {
 
         String message = response.get("messages[1].message");
         System.out.println(message);
-
     }
 }
