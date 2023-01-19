@@ -22,7 +22,7 @@ public class TokensTest {
 
         if (status.contentEquals("Job is NOT ready")) {
             System.out.println("Job is not ready");
-            Thread.sleep(seconds);
+            Thread.sleep(seconds * 1000);
             getJobStatusResponse = RestAssured
                     .given()
                     .queryParam("token", token)
