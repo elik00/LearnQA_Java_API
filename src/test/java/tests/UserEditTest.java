@@ -78,16 +78,21 @@ public class UserEditTest extends BaseTestCase {
 
     @Test
     public void editAnotherUserTest() {
+        //CREATE ANOTHER USER
+        Map<String, String> anotherUserData = DataGenerator.getRegistrationData();
+        Response responseCreateAnotherAuth = apiCoreRequests
+                .makePostRequest("https://playground.learnqa.ru/api/user", anotherUserData);
+
         //LOGIN WITH ANOTHER USER
         Map<String, String> authData = new HashMap<>();
-        authData.put("email", "learnqa20230123124941@example.com");
-        authData.put("password", this.userData.get("password"));
+        authData.put("email", anotherUserData.get("email"));
+        authData.put("password", anotherUserData.get("password"));
 
-        Response responseGetAuth = apiCoreRequests
+        Response responseGetAnotherAuth = apiCoreRequests
                 .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
 
-        String anotherHeader = getHeader(responseGetAuth, "x-csrf-token");
-        String anotherCookie = getCookie(responseGetAuth, "auth_sid");
+        String anotherHeader = getHeader(responseGetAnotherAuth, "x-csrf-token");
+        String anotherCookie = getCookie(responseGetAnotherAuth, "auth_sid");
 
         //EDIT
         String newName = "Changed name";
@@ -104,7 +109,7 @@ public class UserEditTest extends BaseTestCase {
         authData.put("email", this.userData.get("email"));
         authData.put("password", this.userData.get("password"));
 
-        responseGetAuth = apiCoreRequests
+        Response responseGetAuth = apiCoreRequests
                 .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
 
         String header = getHeader(responseGetAuth, "x-csrf-token");
@@ -137,9 +142,6 @@ public class UserEditTest extends BaseTestCase {
 
         Response responseEditUser = apiCoreRequests
                 .makePutRequest("https://playground.learnqa.ru/api/user/" + this.userId, header, cookie, editData);
-
-        System.out.println(responseEditUser.asString());
-        System.out.println(responseEditUser.statusCode());
 
         Assertions.assertResponseCodeEquals(responseEditUser, 400);
         Assertions.assertResponseTextEquals(responseEditUser, "Invalid email format");
