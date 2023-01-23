@@ -29,6 +29,14 @@ public class Assertions {
         );
     }
 
+    public static void assertResponseErrorTextEquals(Response Response, String expectedAnswer) {
+        assertEquals(
+                expectedAnswer,
+                Response.jsonPath().getString("error"),
+                "Response text is not as expected"
+        );
+    }
+
     public static void assertResponseCodeEquals(Response Response, int expectedStatusCode) {
         assertEquals(
                 expectedStatusCode,
