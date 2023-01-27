@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
@@ -7,11 +8,14 @@ import lib.Assertions;
 import lib.BaseTestCase;
 import lib.DataGenerator;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Epic("User editing cases")
+@Feature("User editing")
 public class UserEditTest extends BaseTestCase {
 
     int userId;
@@ -29,6 +33,10 @@ public class UserEditTest extends BaseTestCase {
     }
 
     @Test
+    @Owner("Test owner")
+    @Description("This test successfully edit user")
+    @DisplayName("Test positive edit user")
+    @Severity(value = SeverityLevel.NORMAL)
     public void editJustCreatedTest() {
         //LOGIN
         Map<String, String> authData = new HashMap<>();
@@ -63,6 +71,10 @@ public class UserEditTest extends BaseTestCase {
     }
 
     @Test
+    @Owner("Test owner")
+    @Description("This test try edit user without authorization")
+    @DisplayName("Test negative edit user")
+    @Severity(value = SeverityLevel.NORMAL)
     public void editJustCreatedWithoutAuthTest() {
         //EDIT
         String newName = "Changed name";
@@ -77,6 +89,10 @@ public class UserEditTest extends BaseTestCase {
     }
 
     @Test
+    @Owner("Test owner")
+    @Description("This test try edit user which was created by another user")
+    @DisplayName("Test negative edit user")
+    @Severity(value = SeverityLevel.NORMAL)
     public void editAnotherUserTest() {
         //CREATE ANOTHER USER
         Map<String, String> anotherUserData = DataGenerator.getRegistrationData();
@@ -123,6 +139,10 @@ public class UserEditTest extends BaseTestCase {
     }
 
     @Test
+    @Owner("Test owner")
+    @Description("This test unsuccessfully edit user with wrong email")
+    @DisplayName("Test edit user with wrong email")
+    @Severity(value = SeverityLevel.NORMAL)
     public void editJustCreatedWithWrongEmailTest() {
         //LOGIN
         Map<String, String> authData = new HashMap<>();
@@ -148,6 +168,11 @@ public class UserEditTest extends BaseTestCase {
     }
 
     @Test
+    @Owner("Test owner")
+    @Description("This test unsuccessfully edit user with too short name")
+    @DisplayName("Test edit user with too short name")
+    @Severity(value = SeverityLevel.NORMAL)
+    @Flaky
     public void editJustCreatedWithShortFirstNameTest() {
         //LOGIN
         Map<String, String> authData = new HashMap<>();

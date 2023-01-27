@@ -1,19 +1,27 @@
 package tests;
 
+import io.qameta.allure.*;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
 import lib.Assertions;
 import lib.BaseTestCase;
 import lib.DataGenerator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Epic("User deleting cases")
+@Feature("User deleting")
 public class UserDeleteTest extends BaseTestCase {
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 
     @Test
+    @Owner("Test owner")
+    @Description("This test unsuccessfully delete user which cannot be removed")
+    @DisplayName("Test negative delete user")
+    @Severity(value = SeverityLevel.NORMAL)
     public void negativeUserDeleteTest() {
         Map<String, String> authData = new HashMap<>();
         authData.put("email", "vinkotov@example.com");
@@ -35,6 +43,10 @@ public class UserDeleteTest extends BaseTestCase {
     }
 
     @Test
+    @Owner("Test owner")
+    @Description("This test successfully delete user")
+    @DisplayName("Test positive delete user")
+    @Severity(value = SeverityLevel.NORMAL)
     public void positiveUserDeleteTest() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
 
@@ -70,6 +82,10 @@ public class UserDeleteTest extends BaseTestCase {
     }
 
     @Test
+    @Owner("Test owner")
+    @Description("This test unsuccessfully delete user because there was authorize by another user")
+    @DisplayName("Test negative delete another user")
+    @Severity(value = SeverityLevel.NORMAL)
     public void deleteAnotherUserTest() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
 

@@ -1,20 +1,28 @@
 package tests;
 
+import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
 import lib.Assertions;
 import lib.BaseTestCase;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Epic("Get user info cases")
+@Feature("Get user info")
 public class UserGetTest extends BaseTestCase {
 
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 
     @Test
+    @Owner("Test owner")
+    @Description("This test unsuccessfully get user because there was no authorization before")
+    @DisplayName("Test negative get user")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testGetUserDataNotAuth() {
         Response responseUserData = RestAssured
                 .get("https://playground.learnqa.ru/api/user/2")
@@ -27,6 +35,10 @@ public class UserGetTest extends BaseTestCase {
     }
 
     @Test
+    @Owner("Test owner")
+    @Description("This test successfully get user")
+    @DisplayName("Test positive get user")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testGetUserDetailsAuthAsSameUser() {
         Map<String, String> authData = new HashMap<>();
         authData.put("email", "vinkotov@example.com");
@@ -54,6 +66,10 @@ public class UserGetTest extends BaseTestCase {
     }
 
     @Test
+    @Owner("Test owner")
+    @Description("This test unsuccessfully get user because there was authorize by another user")
+    @DisplayName("Test negative get another user")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testGetAnotherUserDetails() {
         Map<String, String> authData = new HashMap<>();
         authData.put("email", "vinkotov@example.com");

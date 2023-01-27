@@ -1,10 +1,12 @@
 package tests;
 
+import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
 import lib.Assertions;
 import lib.DataGenerator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -12,10 +14,16 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.HashMap;
 import java.util.Map;
 
+@Epic("Registration cases")
+@Feature("Registration")
 public class UserRegisterTest {
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 
     @Test
+    @Owner("Test owner")
+    @Description("This test unsuccessfully create user with already existing email")
+    @DisplayName("Test negative create user")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testCreateUserWithExistingEmail() {
         String email = "vinkotov@example.com";
 
@@ -34,6 +42,10 @@ public class UserRegisterTest {
     }
 
     @Test
+    @Owner("Test owner")
+    @Description("This test successfully create user")
+    @DisplayName("Test positive create user")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testCreateUserSuccessfully() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
 
@@ -48,6 +60,10 @@ public class UserRegisterTest {
     }
 
     @Test
+    @Owner("Test owner")
+    @Description("This test unsuccessfully create user with wrong email")
+    @DisplayName("Test negative create user with wrong email")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testCreateUserWithWrongEmail() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
 
@@ -59,7 +75,11 @@ public class UserRegisterTest {
     }
 
     @ParameterizedTest
+    @Owner("Test owner")
+    @Description("This test unsuccessfully create user with blank required fields")
+    @DisplayName("Test negative create user because of bad request")
     @ValueSource(strings = {"email", "password", "username", "firstName", "lastName"})
+    @Severity(value = SeverityLevel.NORMAL)
     public void testCreateUserWithoutParam(String condition) {
 
         Map<String, String> userData = DataGenerator.getRegistrationData();
@@ -97,6 +117,10 @@ public class UserRegisterTest {
     }
 
     @Test
+    @Owner("Test owner")
+    @Description("This test unsuccessfully create user with short name")
+    @DisplayName("Test negative create user with short name")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testCreateUserWithShortName() {
 
         Map<String, String> userData = DataGenerator.getRegistrationData();
@@ -109,6 +133,10 @@ public class UserRegisterTest {
     }
 
     @Test
+    @Owner("Test owner")
+    @Description("This test unsuccessfully create user with long name")
+    @DisplayName("Test negative create user with long name")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testCreateUserWithLongName() {
 
         Map<String, String> userData = DataGenerator.getRegistrationData();
